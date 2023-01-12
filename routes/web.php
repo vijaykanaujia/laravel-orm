@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\QueryController;
 use App\Models\User;
+use App\Services\PaypalAPI;
+use App\Services\PayuAPI;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use OpenAI\Laravel\Facades\OpenAI;
@@ -17,7 +19,8 @@ use OpenAI\Laravel\Facades\OpenAI;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', function (PayuAPI $paypalAPI) {
+    dd($paypalAPI->checkout());
     return view('welcome');
 });
 Route::get('where-clause', [QueryController::class, 'whereClause']);

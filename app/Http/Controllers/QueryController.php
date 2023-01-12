@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\PaypalAPI;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class QueryController extends Controller
 {
+    public $paypalService;
+
+    public function __construct()
+    {
+        $this->paypalService = new PaypalAPI('12345678');
+    }
     public function whereClause()
     {
         $result = DB::table('rooms')
@@ -55,12 +62,44 @@ class QueryController extends Controller
     }
 
     public function dbRawQuery(){
-         $result = DB::table('comments')
-        // ->select(DB::raw('count(user_id) as number_of_comments, users.name'))
-        ->selectRaw('count(user_id) as number_of_comments, users.name',[])
-        ->join('users','users.id','=','comments.user_id')
-        ->groupBy('user_id')
-        ->get();
-        dd($result);
+        dd($this->paypalService->pay());
+        // $result = DB::table('comments')
+        // // ->select(DB::raw('count(user_id) as number_of_comments, users.name'))
+        // ->selectRaw('count(user_id) as number_of_comments, MAX(users.name)',[])
+        // ->join('users','users.id','=','comments.user_id')
+        // ->groupBy('user_id')
+        // ->get();
+
+        // $result = DB::table('users')
+        // ->orderByRaw('updated_at - created_at ASC')
+        // ->get();
+
+        // $result = DB::table('users')
+        //         ->selectRaw('LENGTH(name) as name_lenght, name')
+        //         ->orderByRaw('LENGTH(name) DESC')
+        //         ->get();
+
+        // $result = DB::table('comments')
+        // ->selectRaw('count(id) as num_of_5rating,rating')
+        // ->groupBy('rating')
+        // ->having('rating', '=', 5)
+        // ->get();
+        // $result = DB::table('comments')
+        // // ->skip(2)
+        // // ->take(2)
+        // ->offset(3)
+        // ->limit(3)
+        // ->get();
+
+        $result = DB::table('comments')
+        ->orderBy('id')
+        ->chunkById(2, function($q){
+            foreach ($q as $k => $v) {
+                if ($v->id == 5) {
+                    return false;
+                }
+            }
+        });
+        dump($result);
     }
 }
