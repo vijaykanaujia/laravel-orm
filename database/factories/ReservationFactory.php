@@ -21,6 +21,7 @@ class ReservationFactory extends Factory
             'check_out' => fake()->dateTimeBetween('now', '+10 days'),
             'user_id' => fake()->numberBetween(1, 3),
             'room_id' => fake()->numberBetween(1, 10),
+            'city_id' => fake()->numberBetween(1, 2),
         ];
     }
 }

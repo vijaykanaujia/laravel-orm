@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Services\PaypalAPI;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class QueryController extends Controller
@@ -27,7 +26,7 @@ class QueryController extends Controller
             ->whereTime('created_at', '=', '12:25:10')
             ->whereColumn('created_at', '>', 'updated_at')
             ->whereColumn([ //multiple condition
-                ['created_at', '>', 'updated_at'], ['room_number', 'room_size']
+                ['created_at', '>', 'updated_at'], ['room_number', 'room_size'],
             ])
             ->whereExists(function ($query) { //subquery
                 $query->select('id')
@@ -40,7 +39,7 @@ class QueryController extends Controller
         dd($result);
         //suppose your column is meta and it have data like
         //  {
-        //    'skills': 'laravel', 
+        //    'skills': 'laravel',
         //    'settings' : {
         //        'site_background' : 'black',
         //        'site_title' : 'title'
@@ -54,14 +53,16 @@ class QueryController extends Controller
         dump($result);
     }
 
-    public function fulltextSearch(){
+    public function fulltextSearch()
+    {
         // DB::statement('ALTER TABLE comments ADD FULLTEXT fulltext_index(content)');
         $result = DB::table('comments')->whereRaw("MATCH(content) AGAINST(? IN BOOLEAN MODE)", ['+inventore -corporis'])->get();
         // $result = DB::table('comments')->where('content', 'like', '%inventore%')->get();
         dump($result);
     }
 
-    public function dbRawQuery(){
+    public function dbRawQuery()
+    {
         dd($this->paypalService->pay());
         // $result = DB::table('comments')
         // // ->select(DB::raw('count(user_id) as number_of_comments, users.name'))
@@ -92,14 +93,45 @@ class QueryController extends Controller
         // ->get();
 
         $result = DB::table('comments')
-        ->orderBy('id')
-        ->chunkById(2, function($q){
-            foreach ($q as $k => $v) {
-                if ($v->id == 5) {
-                    return false;
+            ->orderBy('id')
+            ->chunkById(2, function ($q) {
+                foreach ($q as $k => $v) {
+                    if ($v->id == 5) {
+                        return false;
+                    }
                 }
-            }
-        });
+            });
         dump($result);
+    }
+
+    public function joinQueries()
+    {
+        // $result = DB::table('reservations')
+        //     ->join('rooms', 'reservations.room_id', '=', 'rooms.id')
+        //     ->join('users', 'reservations.user_id', '=', 'users.id')
+        //     ->where('rooms.id', '>', 3)
+        //     ->where('users.id', '>', 1)
+        //     ->get();
+
+        // $result = DB::table('reservations')
+        //     ->join('rooms', function ($q) {
+        //         $q->on('reservations.room_id', '=', 'rooms.id')
+        //             ->where('rooms.id', '>', 3);
+        //     })
+        //     ->join('users', function ($q) {
+        //         $q->on('reservations.user_id', '=', 'users.id')
+        //             ->where('users.id', '>', 1);
+        //     })
+        //     ->get();
+
+        $result = DB::table('rooms')
+        ->selectRaw('room_size,user_id,max(name), count(reservations.id) as total_reservation')
+        ->leftJoin('reservations','reservations.room_id', '=', 'rooms.id')
+        ->leftJoin('users','users.id', '=', 'reservations.user_id')
+        ->groupBy('room_size', 'user_id')
+        ->get();
+
+        dump($result);
+
     }
 }

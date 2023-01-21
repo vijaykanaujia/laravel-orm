@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EloquentController;
 use App\Http\Controllers\QueryController;
 use App\Models\User;
 use App\Services\PaypalAPI;
@@ -20,9 +21,11 @@ use OpenAI\Laravel\Facades\OpenAI;
 */
 
 Route::get('/', function (PayuAPI $paypalAPI) {
-    dd($paypalAPI->checkout());
+    // dd($paypalAPI->checkout());
     return view('welcome');
 });
 Route::get('where-clause', [QueryController::class, 'whereClause']);
 Route::get('fulltext-search', [QueryController::class, 'fulltextSearch']);
 Route::get('dbraw', [QueryController::class, 'dbRawQuery']);
+Route::get('join', [QueryController::class, 'joinQueries']);
+Route::get('orm', [EloquentController::class, 'orm']);
