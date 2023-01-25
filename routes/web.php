@@ -29,3 +29,6 @@ Route::get('fulltext-search', [QueryController::class, 'fulltextSearch']);
 Route::get('dbraw', [QueryController::class, 'dbRawQuery']);
 Route::get('join', [QueryController::class, 'joinQueries']);
 Route::get('orm', [EloquentController::class, 'orm']);
+Route::get('queryScope', [EloquentController::class, 'queryScope']);
+Route::get('casting', [EloquentController::class, 'casting']);
+Route::get('relationQuery', [EloquentController::class, 'relationQuery']);

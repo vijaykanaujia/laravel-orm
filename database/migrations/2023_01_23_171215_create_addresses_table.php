@@ -13,24 +13,24 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('comments', function (Blueprint $table) {
+        Schema::create('addresses', function (Blueprint $table) {
             $table->id();
+            $table->integer('number');
+            $table->string('street');
+            $table->string('country');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->text('content')->nullable();
-            $table->integer('rating')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
-        
-        Schema::connection('sqlite')->create('comments', function (Blueprint $table) {
+
+        Schema::connection('sqlite')->create('addresses', function (Blueprint $table) {
             $table->id();
+            $table->integer('number');
+            $table->string('street');
+            $table->string('country');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->text('content')->nullable();
-            $table->integer('rating')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -41,11 +41,7 @@ return new class extends Migration
      */
     public function down()
     {
-        // Schema::table('comments', function(Blueprint $table){
-        //     $table->dropForeign('user_id');
-        // });
-        Schema::dropIfExists('comments');
-
-        Schema::connection('sqlite')->dropIfExists('comments');
+        Schema::dropIfExists('addresses');
+        Schema::connection('sqlite')->dropIfExists('addresses');
     }
 };

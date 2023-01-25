@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\City;
+use App\Models\Comment;
+use App\Models\Company;
 use App\Models\Reservation;
 use App\Models\Room;
+use App\Models\User;
 
 class EloquentController extends Controller
 {
@@ -37,5 +41,45 @@ class EloquentController extends Controller
         } // takes faster than get() and chunk() but uses more memory than chunk() (not as much as get() method)
 
         // dump($result);
+    }
+
+    public function queryScope()
+    {
+        //get data with global scope that define in model
+        $result = Comment::all();
+
+        // get data without applying global scope in query
+        // $result = Comment::withoutGlobalScope('rating')->get();
+
+        //get data using local scope and global scope
+        // $result = Comment::rating(1)->get();
+
+        //get data using local scope and disable global scope
+        // $result = Comment::withoutGlobalScope('rating')->rating(1)->get();
+
+        dump($result);
+    }
+
+    public function casting(){
+        $result = User::select([
+            'users.*',
+            'last_commented_at' => Comment::selectRaw('MAX(created_at)')
+                ->whereColumn('user_id', 'users.id')
+        ])->withCasts([
+            'last_commented_at' => 'datetime:Y-m-d' // date and datetime works only for array or json result
+        ])->get()->toJson();
+
+        dump($result);
+    }
+
+    public function relationQuery(){
+        //hasOneThrough relationships
+        // $result = City::with('rooms')->find(1);
+        // $result = Comment::find(5);
+        // dump($result->country);
+
+        //hasManyThrough relationships
+        $result = Company::find(1);
+        dump($result->reservations);
     }
 }
