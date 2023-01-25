@@ -15,6 +15,16 @@ return new class extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->id();
+            $table->string('path');
+            $table->string('imageable_type');
+            $table->bigInteger('imageable_id');
+            $table->timestamps();
+        });
+        Schema::connection('sqlite')->create('images', function (Blueprint $table) {
+            $table->id();
+            $table->string('path');
+            $table->string('imageable_type');
+            $table->bigInteger('imageable_id');
             $table->timestamps();
         });
     }
@@ -27,5 +37,6 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('images');
+        Schema::connection('sqlite')->dropIfExists('images');
     }
 };

@@ -13,4 +13,9 @@ class Room extends Model
     {
         return $this->belongsToMany(City::class, 'city_room', 'room_id', 'city_id');
     }
+
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
 }

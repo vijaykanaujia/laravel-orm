@@ -19,6 +19,8 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->text('content')->nullable();
             $table->integer('rating')->nullable();
+            $table->string('commentable_type');
+            $table->bigInteger('commentable_id');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -29,6 +31,8 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->text('content')->nullable();
             $table->integer('rating')->nullable();
+            $table->string('commentable_type');
+            $table->bigInteger('commentable_id');
             $table->timestamps();
             $table->softDeletes();
         });

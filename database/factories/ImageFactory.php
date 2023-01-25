@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\City;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,9 @@ class ImageFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'path' => fake()->imageUrl(),
+            'imageable_id' => fake()->numberBetween(1, 3),
+            'imageable_type' => fake()->randomElement([User::class, City::class]),
         ];
     }
 }

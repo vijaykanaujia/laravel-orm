@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\City;
 use App\Models\Comment;
 use App\Models\Company;
+use App\Models\Image;
 use App\Models\Reservation;
 use App\Models\Room;
 use App\Models\User;
@@ -79,7 +80,17 @@ class EloquentController extends Controller
         // dump($result->country);
 
         //hasManyThrough relationships
-        $result = Company::find(1);
-        dump($result->reservations);
+        // $result = Company::find(1);
+        // dump($result->reservations);
+
+        //morphOne relationships
+        // $result = User::find(3);
+        // $result = Image::find(3);
+        // dump($result->imageable);
+
+        //morphMany relationships
+        // $result = Room::find(6);
+        $result = Image::find(8);
+        dump($result->comments);
     }
 }

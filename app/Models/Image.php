@@ -8,4 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Image extends Model
 {
     use HasFactory;
+
+    public function imageable(){
+        return $this->morphTo();
+    }
+
+    public function notdependoncoumn(){
+        return $this->morphTo(__FUNCTION__, 'imageable_type', 'imageable_id');
+    }
+
+    public function comments(){
+        return $this->morphMany(Comment::class, 'commentable');
+    }
 }
