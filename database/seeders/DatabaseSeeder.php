@@ -30,5 +30,6 @@ class DatabaseSeeder extends Seeder
         // $this->call(AddressSeeder::class);
         $this->call(CityRoomSeeder::class);
         $this->call(ImageSeeder::class);
+        $this->call(LikeableSeeder::class);
     }
 }

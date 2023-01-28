@@ -20,4 +20,8 @@ class Image extends Model
     public function comments(){
         return $this->morphMany(Comment::class, 'commentable');
     }
+
+    public function likes(){
+        return $this->morphToMany(User::class, 'likeable');
+    }
 }

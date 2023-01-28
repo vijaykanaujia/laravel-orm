@@ -56,4 +56,12 @@ class User extends Authenticatable
     public function image(){
         return $this->morphOne(Image::class, 'imageable');
     }
+
+    public function likedImages(){
+        return $this->morphedByMany(Image::class, 'likeable');
+    }
+
+    public function likedRooms(){
+        return $this->morphedByMany(Room::class, 'likeable');
+    }
 }

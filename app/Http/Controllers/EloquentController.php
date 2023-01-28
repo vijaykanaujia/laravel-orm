@@ -90,7 +90,13 @@ class EloquentController extends Controller
 
         //morphMany relationships
         // $result = Room::find(6);
-        $result = Image::find(8);
-        dump($result->comments);
+        // $result = Image::find(8);
+        // dump($result->comments);
+
+        // ManyToMany Polymorphic relationships
+        // $result = User::find(1);
+        // dump($result->likedRooms, $result->likedImages);
+        $result = Room::find(6);
+        dump($result->likes);
     }
 }
