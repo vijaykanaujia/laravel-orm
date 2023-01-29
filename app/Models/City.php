@@ -18,4 +18,9 @@ class City extends Model
         // or wherePivotNotIn('column_name', ['column_name', ...])
         // or wherePivot('column_name', 'column_value', 'column_value2')
     }
+
+    public function image()
+    {
+        return $this->morphOne(Image::class, 'imageable');
+    }
 }

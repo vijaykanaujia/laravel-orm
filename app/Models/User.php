@@ -40,28 +40,32 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'meta' => 'json'
+        'meta' => 'json',
     ];
 
     public function address()
     {
-        return $this->hasOne(Address::class, 'user_id', 'id'); // 2nd 3rd args optional
+        return $this->hasOne(Address::class, 'user_id', 'id')->withDefault(['country' => 'no addrees attached yet']); // 2nd 3rd args optional
+        // withDefault() only for: belongsTo, hasOne, hasOneThrough, and morphOne relations
     }
 
-    public function commemts()
+    public function comments()
     {
-        return $this->hasMany(Address::class); // 2nd 3rd args optional
+        return $this->hasMany(Comment::class, 'user_id', 'id'); // 2nd 3rd args optional
     }
 
-    public function image(){
+    public function image()
+    {
         return $this->morphOne(Image::class, 'imageable');
     }
 
-    public function likedImages(){
+    public function likedImages()
+    {
         return $this->morphedByMany(Image::class, 'likeable');
     }
 
-    public function likedRooms(){
+    public function likedRooms()
+    {
         return $this->morphedByMany(Room::class, 'likeable');
     }
 }

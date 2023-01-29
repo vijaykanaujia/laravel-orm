@@ -32,3 +32,7 @@ Route::get('orm', [EloquentController::class, 'orm']);
 Route::get('queryScope', [EloquentController::class, 'queryScope']);
 Route::get('casting', [EloquentController::class, 'casting']);
 Route::get('relationQuery', [EloquentController::class, 'relationQuery']);
+Route::get('queryOnRelationship', [EloquentController::class, 'queryOnRelationship']);
+Route::get('queryOnPolymorphicRelationship', [EloquentController::class, 'queryOnPolymorphicRelationship']);
+Route::get('crudOnRelatedModel', [EloquentController::class, 'crudOnRelatedModel']);
+Route::get('performenceCompare', [EloquentController::class, 'performenceCompare']);

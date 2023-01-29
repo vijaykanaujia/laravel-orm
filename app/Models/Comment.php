@@ -11,12 +11,21 @@ class Comment extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $touches = ['user'];
+
+    // protected $casts = [
+    //     'rating' => 'float',
+    // ];
+
     // retrieved, creating, created, updating, updated, saving, saved, deleting, deleted, restoring, restored
     // When issuing a mass update or delete via Eloquent, the saved, updated, deleting, and deleted model events will not be fired for the affected models. This is because the models are never actually retrieved when issuing a mass update or delete.
     // protected $dispatchesEvents = [
     //     'saved' => 'class to handle saved event',
     //     'deleted' => 'class to deleted saved event'
     // ];
+
+    // protected $fillable = ['rating', 'content', 'user_id'];
+    protected $guarded = [];
 
     // protected static function booted()
     // {
